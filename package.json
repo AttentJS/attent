@@ -43,7 +43,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "build:all": "npm run build --workspaces --if-present && npm run build",
+    "build:all": "npm run build && npm run build --workspaces --if-present",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
