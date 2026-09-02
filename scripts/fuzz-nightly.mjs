@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
 
-// §17/§21 Phase 7 acceptance: CI runs the fuzz suite at a fixed, modest
-// numRuns for fast reproducible feedback; this script runs the same suite
-// much longer for deeper local exploration, without needing a shell-specific
-// env-var syntax (works identically on POSIX shells and PowerShell/cmd).
+// CI runs the fuzz suite at a fixed, modest numRuns for fast reproducible
+// feedback; this script runs the same suite much longer for deeper local
+// exploration, without needing a shell-specific env-var syntax (works
+// identically on POSIX shells and PowerShell/cmd).
 const env = { ...process.env, FC_NUM_RUNS: process.env.FC_NUM_RUNS ?? "5000" };
 
 const result = spawnSync(
