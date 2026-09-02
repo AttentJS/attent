@@ -1,0 +1,42 @@
+{
+  "name": "@attent/mcp",
+  "version": "0.0.1",
+  "description": "Attent authorization middleware for Model Context Protocol servers",
+  "keywords": [
+    "attent",
+    "mcp",
+    "model-context-protocol",
+    "authorization",
+    "agents"
+  ],
+  "homepage": "https://github.com/AttentJS/attent#readme",
+  "bugs": {
+    "url": "https://github.com/AttentJS/attent/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AttentJS/attent.git",
+    "directory": "packages/mcp"
+  },
+  "license": "MIT",
+  "author": "AttentJS",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "attent": "file:../..",
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
