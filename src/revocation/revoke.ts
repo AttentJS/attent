@@ -8,10 +8,10 @@ export interface RevokeInput {
 }
 
 /**
- * Revokes `credential`'s leaf hop (§13). Cascade to everything delegated
+ * Revokes `credential`'s leaf hop. Cascade to everything delegated
  * from that hop needs no separate bookkeeping in the in-memory model: every
  * descendant chain necessarily contains this hop somewhere in its own
- * `hops` array (a chain is the full root-to-leaf lineage, §7), and
+ * `hops` array (a chain is the full root-to-leaf lineage), and
  * `authorize()` checks revocation of every hop in a presented chain — so
  * revoking hop *n* here transparently denies every chain built on it or
  * later the moment it's presented, without this function needing to

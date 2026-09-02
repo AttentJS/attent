@@ -9,11 +9,11 @@ import { auditedAuthorize, auditedDelegate, auditedIssueCredential, auditedRevok
 import type { AuditEvent } from "../../src/audit/types.js";
 
 /**
- * Phase 5 acceptance criterion (§21): every authorize/delegate/revoke/issue
- * call from Phases 1-4 must be observable via `onAuditEvent` in an
- * integration test *without modifying those modules' core logic* — proving
- * audit is additive (§10's no-reverse-dependency boundary). This file
- * exercises the full issue -> delegate -> authorize -> revoke flow through
+ * Every authorize/delegate/revoke/issue call must be observable via
+ * `onAuditEvent` in an integration test *without modifying those modules'
+ * core logic* — proving audit is additive (no reverse-dependency onto
+ * core). This file exercises the full issue -> delegate -> authorize ->
+ * revoke flow through
  * the `audited*` wrappers and checks both the audit trail and that the
  * underlying result is byte-for-byte identical to calling the unwrapped
  * function directly.

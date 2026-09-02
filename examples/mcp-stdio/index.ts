@@ -1,5 +1,5 @@
 /**
- * Real MCP stdio client/server demo (§14) — spawns examples/mcp-stdio/server.ts
+ * Real MCP stdio client/server demo — spawns examples/mcp-stdio/server.ts
  * as an actual child process and talks to it over real stdin/stdout via
  * `StdioClientTransport`, unlike examples/mcp/index.ts's in-process
  * `InMemoryTransport` demo. This is the pattern to copy for a production

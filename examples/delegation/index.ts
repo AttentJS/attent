@@ -1,5 +1,5 @@
 /**
- * Delegation example (§16): a 2-hop delegation chain, showing structural
+ * Delegation example: a 2-hop delegation chain, showing structural
  * narrowing in action — the tool ends up strictly less capable than the
  * agent that delegated to it, and an over-broad delegation attempt is
  * rejected outright. Run:

@@ -1,10 +1,9 @@
 /**
- * MCP example (§16/§21 Phase 8) — a `refund` tool exposed over two MCP
- * servers, wired to real MCP `Server`/`Client` pairs via `InMemoryTransport`
- * (no stdio process needed for a runnable demo, per §16's "plain Node
- * script" style). Both servers share the same underlying refund logic; the
- * only difference is *whose* credential authorizes the call, which is
- * exactly the confused-deputy gap from §4 T5:
+ * MCP example — a `refund` tool exposed over two MCP servers, wired to
+ * real MCP `Server`/`Client` pairs via `InMemoryTransport` (no stdio
+ * process needed for a runnable demo). Both servers share the same
+ * underlying refund logic; the only difference is *whose* credential
+ * authorizes the call, which is exactly the confused-deputy gap:
  *
  *  - `vulnerable` handler uses the *tool's own* ambient service credential
  *    to authorize itself, ignoring whatever the caller presented — a rogue

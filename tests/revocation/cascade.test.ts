@@ -6,7 +6,7 @@ import { memoryRevocationStore, revoke } from "../../src/revocation/index.js";
 
 const CAP = { action: "orders:read", resource: "order:*" } as const;
 
-describe("revocation cascade — revoke-mid-chain-kills-descendants-only (§13)", () => {
+describe("revocation cascade — revoke-mid-chain-kills-descendants-only", () => {
   it("revoking a mid-chain hop denies every chain built on it or later, but not ancestors or unrelated siblings", async () => {
     const { trustedKeys, root } = await scenario();
     const agent = await makeActor(trustedKeys, { kind: "agent", name: "agent", createdBy: root.identity.id });

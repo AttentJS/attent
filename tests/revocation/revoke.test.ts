@@ -14,7 +14,7 @@ describe("memoryRevocationStore", () => {
     expect(await store.isRevoked("hop-2")).toBe(false);
   });
 
-  it("two independent in-memory stores never share revocation state (§25 documented limitation)", async () => {
+  it("two independent in-memory stores never share revocation state (documented limitation)", async () => {
     const a = memoryRevocationStore();
     const b = memoryRevocationStore();
     await a.revoke("hop-1");

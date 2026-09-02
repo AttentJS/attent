@@ -4,7 +4,7 @@ import type { CallToolHandler, WithAttentOptions } from "./types.js";
 
 /**
  * `attent:no_credential` is `@attent/mcp`'s own deny reason, layered on top
- * of core's fixed `DenyReason` enum (§26) — core never sees "there was no
+ * of core's fixed `DenyReason` enum — core never sees "there was no
  * credential at all," only ever a resolved `CredentialChain` or nothing;
  * distinguishing "missing" from a core-produced deny keeps the mapping
  * honest instead of inventing a fake capability/audience/expiry failure.
@@ -19,15 +19,15 @@ function toolErrorResult(reason: string): CallToolResult {
 }
 
 /**
- * MCP middleware (§14) — wraps a `tools/call` handler so it only runs after
- * an Attent `authorize()` decision allows it (T5: confused-deputy defense —
+ * MCP middleware — wraps a `tools/call` handler so it only runs after
+ * an Attent `authorize()` decision allows it (confused-deputy defense —
  * the wrapped handler must never be reachable on a `deny`, and must never
  * run *before* the decision is known). On deny (including "no credential
  * resolved") this returns an MCP tool error result rather than throwing, so
- * a misbehaving/unauthorized call can't crash the server (§14) — and, if an
+ * a misbehaving/unauthorized call can't crash the server — and, if an
  * `emitter` is configured, the audit event is recorded regardless of
  * outcome, so a compliance/debugging consumer sees every attempt, not just
- * the allowed ones (T6).
+ * the allowed ones.
  */
 export function withAttent<Extra = unknown>(
   options: WithAttentOptions<Extra>,

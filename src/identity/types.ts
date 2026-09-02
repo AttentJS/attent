@@ -4,7 +4,7 @@ import type { JWK } from "jose";
  * A Principal is any entity that can hold authority and be identified: a
  * human, an application, or an agent. `Identity` is the durable record of
  * one — an ID + public key + metadata. It is NOT proof of authority; only a
- * verified `Credential` is (T7) — nothing in this module issues authority.
+ * verified `Credential` is — nothing in this module issues authority.
  */
 export type PrincipalKind = "human" | "application" | "agent";
 
@@ -16,7 +16,7 @@ export interface Identity {
   readonly kind: PrincipalKind;
   /**
    * Optional tenant/organization namespace. Not consulted by `authorize()`
-   * or any core decision (multi-tenancy is a storage-layer concern, §11) —
+   * or any core decision (multi-tenancy is a storage-layer concern) —
    * `IdentityStore`/`RevocationStore`/`AuditSink` implementations use it to
    * scope reads/writes so one tenant's data is never visible to another.
    * Store adapters MUST treat `tenantId` as part of the lookup key, not as

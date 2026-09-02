@@ -13,21 +13,21 @@ export interface AuthorizeOptions {
 }
 
 /**
- * `authorize()` (§6/§26) — evaluated against an already-verified
- * `credential` chain (signature/structural-narrowing/chain integrity is
- * `verifyChain`'s job, a throw not a `Decision` — Phase 4). Evaluation
- * order mirrors §6: revocation (T9, every hop) -> expiry (leaf) -> audience
- * (leaf) -> capability match (leaf's effective set) -> policy predicate ->
- * return. Every branch defaults to deny; malformed `action`/`resource`
- * input throws (§26), it is never silently coerced into a deny.
+ * Evaluated against an already-verified `credential` chain
+ * (signature/structural-narrowing/chain integrity is `verifyChain`'s job,
+ * a throw not a `Decision`). Evaluation order: revocation (every hop) ->
+ * expiry (leaf) -> audience (leaf) -> capability match (leaf's effective
+ * set) -> policy predicate -> return. Every branch defaults to deny;
+ * malformed `action`/`resource` input throws, it is never silently
+ * coerced into a deny.
  *
- * Only the leaf hop's `capabilities`/`aud`/`exp` are consulted for matching
- * — by the narrowing invariant (§7/§23), every ancestor hop's effective set
- * is already a superset of the leaf's, so the leaf alone *is* the chain's
- * effective capability/audience/expiry set. Revocation is the one check
- * that must walk every hop (not just the leaf): revoking hop *n* must deny
- * every chain built on hop *n* or later (§13 cascade), and any such chain
- * necessarily contains hop *n* somewhere in its own `hops` array.
+ * Only the leaf hop's `capabilities`/`aud`/`exp` are consulted for
+ * matching — by the narrowing invariant, every ancestor hop's effective
+ * set is already a superset of the leaf's, so the leaf alone *is* the
+ * chain's effective capability/audience/expiry set. Revocation is the one
+ * check that must walk every hop (not just the leaf): revoking hop *n*
+ * must deny every chain built on hop *n* or later (cascade), and any such
+ * chain necessarily contains hop *n* somewhere in its own `hops` array.
  */
 export async function authorize(input: AuthorizeInput, options: AuthorizeOptions): Promise<Decision> {
   const context = input.context ?? {};

@@ -4,7 +4,7 @@ import type { ResolveCredential, ResolveCredentialContext } from "./types.js";
 
 /**
  * The documented (but not MCP-standard — the protocol has no built-in
- * credential-carrying field, §14) convention this package's examples and
+ * credential-carrying field) convention this package's examples and
  * `attentCredentialMeta` use: a `tools/call` request's `_meta.attentCredential`
  * carries the presented chain as an ordered array of compact JWS strings,
  * root hop first.

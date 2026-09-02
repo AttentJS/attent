@@ -29,8 +29,8 @@ function isPatternSegment(segment: string): boolean {
 
 /**
  * Validates and splits a request-side action/resource string. Throws
- * (never returns an ambiguous result) on any grammar violation — per §26,
- * malformed input is a reject, not a deny.
+ * (never returns an ambiguous result) on any grammar violation — malformed
+ * input is a reject, not a deny.
  */
 export function assertConcrete(value: string, kind: "action" | "resource"): string[] {
   if (typeof value !== "string" || value.length === 0) {
@@ -104,12 +104,12 @@ export function matchAnyPattern(patterns: readonly string[], concreteSegments: r
 /**
  * True iff every string `childPattern` could match, `parentPattern` could
  * also match — i.e. `childPattern` is at least as narrow as `parentPattern`.
- * Used by delegation narrowing (§7/§23), not request-time matching: a
+ * Used by delegation narrowing, not request-time matching: a
  * concrete parent segment only matches an identical child segment; a
  * wildcard parent segment matches anything at that position, including a
  * wildcard child segment. A wildcard child segment against a concrete
  * parent segment is never a subset (the canonical "wildcard-widening"
- * rejection, §23 example 2). Malformed patterns are never a subset of
+ * rejection). Malformed patterns are never a subset of
  * anything (fail closed, mirrors `parsePatternSegments`).
  */
 export function patternIsSubsetOf(childPattern: string, parentPattern: string): boolean {

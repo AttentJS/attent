@@ -6,9 +6,8 @@ function formatDetails(details: readonly ExceedsDetail[]): string {
 
 /**
  * Thrown by `delegate()` when the requested grant is not fully covered by
- * the parent's effective authority (§7's corrected reject-not-clip rule).
- * Carries structured `details` (not just a message) — resolves the open
- * question in §21/§30 in favor of structured detail, for good DX (a caller
+ * the parent's effective authority (reject-not-clip rule).
+ * Carries structured `details` (not just a message) for good DX (a caller
  * can programmatically inspect exactly which clause exceeded).
  */
 export class ExceedsAvailableAuthorityError extends Error {
@@ -47,8 +46,7 @@ export class ChainContinuityError extends Error {
 /**
  * Thrown when a hop's `parentHopHash` doesn't match the hash of the hop
  * immediately preceding it in the presented chain — the defense against
- * splicing a validly-signed hop onto a different, more-privileged parent
- * (T8, §7, §23 example 3).
+ * splicing a validly-signed hop onto a different, more-privileged parent.
  */
 export class ChainHashMismatchError extends Error {
   constructor() {
@@ -60,8 +58,7 @@ export class ChainHashMismatchError extends Error {
 /**
  * Thrown when re-derived narrowing (capabilities, `aud`, or `exp`) between
  * two adjacent hops fails at verify-time — the belt-and-suspenders check
- * that catches a violation even if issuance-time enforcement had a bug
- * (§7, §23).
+ * that catches a violation even if issuance-time enforcement had a bug.
  */
 export class ChainNarrowingViolationError extends Error {
   readonly details: readonly ExceedsDetail[];

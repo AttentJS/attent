@@ -11,11 +11,11 @@ import {
 import { fcParams } from "./fc.config.js";
 
 /**
- * §17 "Credential (de)serialization" property target: (a) a legitimately
+ * Credential (de)serialization property target: (a) a legitimately
  * issued credential round-trips through verify stably, and (b) arbitrary
  * malformed/truncated/non-JWS input is always rejected with a graceful,
  * typed error — never a crash, and never a partially-parsed trusted-looking
- * `Credential` object (T15-adjacent).
+ * `Credential` object.
  */
 
 const KNOWN_ERRORS = [CredentialExpiredError, CredentialVerificationError, MalformedCredentialError, InvalidCredentialInputError];

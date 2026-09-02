@@ -14,8 +14,7 @@ import type { AuditDelegationHop, AuditPrincipalRef } from "./types.js";
 
 /**
  * Shared audit-observation options, layered on top of each underlying
- * call's own options — this is the whole point of Phase 5's acceptance
- * criterion (§21): every one of `authorize`/`delegate`/`revoke`/
+ * call's own options: every one of `authorize`/`delegate`/`revoke`/
  * `issueCredential` is called completely unmodified here, wrapped from the
  * outside. If `emitter` is omitted, these functions behave identically to
  * calling the underlying function directly (audit is opt-in, additive,
@@ -24,13 +23,13 @@ import type { AuditDelegationHop, AuditPrincipalRef } from "./types.js";
 export interface AuditOptions {
   readonly emitter?: AuditEmitter;
   readonly requestId?: string;
-  /** Optional tenant/organization namespace stamped onto the emitted event, for a durable multi-tenant `AuditSink` to scope by (§11). */
+  /** Optional tenant/organization namespace stamped onto the emitted event, for a durable multi-tenant `AuditSink` to scope by. */
   readonly tenantId?: string;
-  /** Off by default (§12) — `context` often carries request-specific business data. */
+  /** Off by default — `context` often carries request-specific business data. */
   readonly includeContext?: boolean;
   /** Applied to `context` before recording, only when `includeContext` is set. */
   readonly redactContext?: (context: Readonly<Record<string, unknown>>) => Readonly<Record<string, unknown>>;
-  /** Off by default (§12) — Identity names may be PII. */
+  /** Off by default — Identity names may be PII. */
   readonly includeNames?: boolean;
 }
 

@@ -18,21 +18,21 @@ export interface VerifyChainInput {
 }
 
 /**
- * Walks a full delegation chain root-to-leaf (§7's "Chain verification"),
- * mandatory and non-partial: (a) every hop's signature verified against its
- * claimed issuer's trusted key + algorithm allowlist + expiry (delegates to
- * `verifyCredential` per hop, so a bad signature/alg/expiry throws from
- * there); (b) `sub` of hop *n* must equal `iss` of hop *n+1*; (c)
- * `capabilities`/`aud` of hop *n+1* re-derived as a structural subset of
- * hop *n*'s via the same `intersectCapabilities`/`intersectAudience` used
- * at issuance — belt-and-suspenders (§22/§23), catches a violation even if
- * `delegate()` had a bug; (d) `parentHopHash` of hop *n+1* matches the hash
- * of hop *n*'s `jws` (chain-splice defense, T8); (e) `exp` of hop *n+1* is
- * never later than hop *n*'s; (f) total depth ≤ `maxDelegationDepth`.
- * Revocation is deliberately NOT checked here (§13) — that's `authorize()`'s
- * mandatory, `RevocationStore`-backed job (T9); this function has no
- * storage dependency by design, matching Phase 1-3's existing
- * `verifyCredential` (crypto/structural verification only).
+ * Walks a full delegation chain root-to-leaf, mandatory and non-partial:
+ * (a) every hop's signature verified against its claimed issuer's trusted
+ * key + algorithm allowlist + expiry (delegates to `verifyCredential` per
+ * hop, so a bad signature/alg/expiry throws from there); (b) `sub` of hop
+ * *n* must equal `iss` of hop *n+1*; (c) `capabilities`/`aud` of hop *n+1*
+ * re-derived as a structural subset of hop *n*'s via the same
+ * `intersectCapabilities`/`intersectAudience` used at issuance —
+ * belt-and-suspenders, catches a violation even if `delegate()` had a bug;
+ * (d) `parentHopHash` of hop *n+1* matches the hash of hop *n*'s `jws`
+ * (chain-splice defense); (e) `exp` of hop *n+1* is never later than hop
+ * *n*'s; (f) total depth ≤ `maxDelegationDepth`.
+ * Revocation is deliberately NOT checked here — that's `authorize()`'s
+ * mandatory, `RevocationStore`-backed job; this function has no storage
+ * dependency by design, matching `verifyCredential` (crypto/structural
+ * verification only).
  */
 export async function verifyChain(input: VerifyChainInput): Promise<VerifiedCredentialChain> {
   const { hops, trustedKeys } = input;
@@ -50,7 +50,7 @@ export async function verifyChain(input: VerifyChainInput): Promise<VerifiedCred
   for (const jws of hops) {
     // Each hop's signature/alg/expiry is independently verified here —
     // propagates as a throw (MalformedCredentialError/CredentialVerificationError/
-    // CredentialExpiredError) exactly as Phase 2 already documented.
+    // CredentialExpiredError).
     verified.push(await verifyCredential({ jws, trustedKeys, clock }));
   }
 

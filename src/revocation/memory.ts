@@ -13,7 +13,7 @@ class InMemoryRevocationStore implements RevocationStore {
   }
 }
 
-/** Instant, local, synchronous-in-effect (§25) — the default store. */
+/** Instant, local, synchronous-in-effect — the default store. */
 export function memoryRevocationStore(): RevocationStore {
   return new InMemoryRevocationStore();
 }

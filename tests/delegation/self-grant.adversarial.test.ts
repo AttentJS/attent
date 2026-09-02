@@ -7,7 +7,7 @@ import { sha256Base64Url } from "../../src/crypto/hash.js";
 import type { HopClaims } from "../../src/credentials/types.js";
 
 /**
- * §22 point 3 / §23 example 5: no public API path lets a Principal mint a
+ * No public API path lets a Principal mint a
  * hop naming itself `issuer` for capabilities it didn't already hold as
  * `subject` of a prior hop. Two angles: (1) going through `delegate()`
  * with `to === self`, and (2) hand-crafting a self-issued hop directly,

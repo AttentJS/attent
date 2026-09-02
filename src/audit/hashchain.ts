@@ -20,7 +20,7 @@ export interface HashChainVerificationResult {
 }
 
 /**
- * Re-verifies a sequence of hash-chained events (§12/T12): recomputes each
+ * Re-verifies a sequence of hash-chained events: recomputes each
  * event's hash and checks the *next* event's `prevEventHash` against it.
  * A gap, reorder, or edit anywhere in the sequence breaks the chain from
  * that point forward.

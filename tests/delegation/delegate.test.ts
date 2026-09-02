@@ -54,7 +54,7 @@ describe("delegate() — valid narrowing", () => {
   });
 });
 
-describe("delegate() — rejects-over-broad-request (§23 example 1, naive-union attack)", () => {
+describe("delegate() — rejects-over-broad-request (naive-union attack)", () => {
   it("throws ExceedsAvailableAuthorityError with structured detail when the requested grant exceeds the parent's", async () => {
     const { trustedKeys, root } = await scenario();
     const agent = await makeActor(trustedKeys, { kind: "agent", name: "agent", createdBy: root.identity.id });

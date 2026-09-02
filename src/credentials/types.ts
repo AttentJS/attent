@@ -17,9 +17,9 @@ export const MAX_CAPABILITIES_PER_HOP = 100;
 export const MAX_AUD_ENTRIES = 50;
 
 /**
- * A single granted permission, optionally further constrained. Full
- * capability-matching/policy semantics (§6) land in Phase 3 — here it's just
- * the wire shape carried inside a signed hop.
+ * A single granted permission, optionally further constrained. This is
+ * just the wire shape carried inside a signed hop — capability-matching/
+ * policy semantics live elsewhere.
  */
 export interface CapabilityGrant {
   readonly action: string;
@@ -28,9 +28,9 @@ export interface CapabilityGrant {
 }
 
 /**
- * Claims carried by one signed hop (§8). Phase 2 only ever issues/verifies a
- * single hop (no `parentHopHash`/chain yet — that's Phase 4) but the field
- * shape is the one the full multi-hop `Credential` will reuse per hop.
+ * Claims carried by one signed hop. The field shape is the one the full
+ * multi-hop `Credential` reuses per hop (`parentHopHash` is unset for a
+ * single, non-delegated hop).
  */
 export interface HopClaims {
   /** Issuer's Identity id. */
@@ -42,10 +42,9 @@ export interface HopClaims {
   readonly capabilities: readonly CapabilityGrant[];
   /**
    * Unique hop identifier (JWT `jti`). Doubles as the revocation key
-   * (`RevocationStore` is keyed by hop id, §13) — added ahead of the plan's
-   * "optional jti for replay protection" (§8) because revocation needs a
-   * stable per-hop identifier regardless of whether replay protection is
-   * enabled; every hop gets one, always.
+   * (`RevocationStore` is keyed by hop id) — every hop gets one, always,
+   * since revocation needs a stable per-hop identifier regardless of
+   * whether replay protection is otherwise in use.
    */
   readonly jti: string;
   /** Seconds since epoch. */
@@ -54,10 +53,10 @@ export interface HopClaims {
   readonly exp: number;
   /**
    * Hash (`sha256Base64Url`) of the parent hop's `jws` this hop was
-   * delegated from (§7). Absent on a root hop (one issued directly via
+   * delegated from. Absent on a root hop (one issued directly via
    * `issueCredential`, not `delegate`). Binds a hop to the *specific* parent
    * it was issued from, preventing a valid hop from being spliced onto a
-   * different, more-privileged parent (T8 chain-splice defense, §23 example 3).
+   * different, more-privileged parent (chain-splice defense).
    */
   readonly parentHopHash?: string;
 }

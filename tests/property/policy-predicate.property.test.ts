@@ -5,7 +5,7 @@ import type { CapabilityGrant } from "../../src/credentials/types.js";
 import { fcParams } from "./fc.config.js";
 
 /**
- * §17 "Policy predicate evaluation" property target: random constraint/
+ * Policy predicate evaluation property target: random constraint/
  * context pairs, assert the default evaluator never throws on well-typed-
  * but-unexpected values (negative amounts, NaN, missing keys, wrong types,
  * `__proto__`-shaped keys) — it must degrade to an explicit `false`, never

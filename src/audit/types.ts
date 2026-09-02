@@ -1,11 +1,10 @@
 /**
- * Structured, replayable record of a Decision/Delegation/Revocation/Issuance
- * (§12). Deliberately excludes anything secret or reconstructable-as-a-live-
+ * Structured, replayable record of a Decision/Delegation/Revocation/Issuance.
+ * Deliberately excludes anything secret or reconstructable-as-a-live-
  * capability by default: no private key material (audit never touches
  * `crypto/` internals), no raw credential JWS strings (only hop ids —
  * `jti`), no `context` unless explicitly opted in, no Identity `name`s
- * unless explicitly opted in (§12: "not names unless explicitly opted in —
- * names may be PII").
+ * unless explicitly opted in (names may be PII).
  */
 export type AuditEventType = "authorization" | "delegation" | "revocation" | "credential_issued";
 
@@ -32,13 +31,13 @@ export interface AuditPolicyRef {
 
 export interface AuditEvent {
   readonly id: string;
-  /** ISO 8601, from the injected `Clock` — never raw `Date.now()` (determinism, §12/§29). */
+  /** ISO 8601, from the injected `Clock` — never raw `Date.now()` (determinism). */
   readonly timestamp: string;
   /** Optional tenant/organization namespace (mirrors `Identity.tenantId`) — a durable `AuditSink` MUST scope storage/queries by this, not just filter post-query. */
   readonly tenantId?: string;
   readonly type: AuditEventType;
   readonly principal: AuditPrincipalRef;
-  /** The acting agent, if different from `principal` (§12). */
+  /** The acting agent, if different from `principal`. */
   readonly agent?: AuditPrincipalRef;
   readonly delegationChain: readonly AuditDelegationHop[];
   readonly action?: string;
@@ -46,9 +45,9 @@ export interface AuditEvent {
   readonly decision?: AuditDecision;
   readonly policy?: AuditPolicyRef;
   readonly requestId?: string;
-  /** Present only when the caller opts in via `includeContext` (§12). */
+  /** Present only when the caller opts in via `includeContext`. */
   readonly context?: Readonly<Record<string, unknown>>;
-  /** Present only when hash-chaining is enabled (§12/T12). */
+  /** Present only when hash-chaining is enabled. */
   readonly prevEventHash?: string;
 }
 

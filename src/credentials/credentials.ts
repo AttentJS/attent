@@ -57,9 +57,8 @@ export interface IssueCredentialInput {
 }
 
 /**
- * Issues a single signed hop (§8). No delegation/chain support yet (Phase 4)
- * — this always produces a root, one-hop credential from `issuer` to
- * `subject`.
+ * Issues a single signed hop. No delegation/chain support here — this
+ * always produces a root, one-hop credential from `issuer` to `subject`.
  */
 export async function issueCredential(input: IssueCredentialInput): Promise<Credential> {
   const { issuer, subject, keyProvider, capabilities, aud, ttlSeconds } = input;
@@ -160,7 +159,7 @@ export interface VerifyCredentialInput {
 }
 
 /**
- * Verifies a single-hop credential (§8/§9 step 7). Always mandatory-checks:
+ * Verifies a single-hop credential. Always mandatory-checks:
  * algorithm allowlist, `kid` known to `trustedKeys` for the claimed issuer,
  * signature, expiry (via injected `Clock`) — no partial-verification mode.
  */

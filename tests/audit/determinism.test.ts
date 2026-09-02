@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { createAuditEmitter } from "../../src/audit/emitter.js";
 import type { AuditEvent } from "../../src/audit/types.js";
 
-describe("audit event determinism (§12: fixed Clock + fixed inputs -> deterministic content minus id)", () => {
+describe("audit event determinism: fixed Clock + fixed inputs -> deterministic content minus id", () => {
   it("two events built from identical input differ only by id", async () => {
     const clock = { now: (): Date => new Date("2026-01-01T00:00:00Z") };
     const emitter = createAuditEmitter({ clock });

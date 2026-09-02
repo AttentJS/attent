@@ -2,7 +2,7 @@ import type { RevocationStore, RevokeOptions } from "attent";
 import type { AttentDatabase } from "./db.js";
 
 /**
- * Durable `RevocationStore` backed by SQLite (§11/§13). Revocation is
+ * Durable `RevocationStore` backed by SQLite. Revocation is
  * consulted on every `authorize()` call, so this must answer `isRevoked`
  * correctly even across process restarts — the in-memory `Set` cannot.
  */

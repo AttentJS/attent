@@ -1,5 +1,5 @@
 /**
- * Basic example (§16): one root Principal, one Agent, one non-delegated
+ * Basic example: one root Principal, one Agent, one non-delegated
  * credential, one allow and one deny `authorize()` call. Run:
  *
  *   npm run example:basic

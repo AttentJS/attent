@@ -65,7 +65,7 @@ describe("verifyChain() — tamper each position of a 3-hop chain individually, 
   });
 });
 
-describe("verifyChain() — hand-crafted-superset-hop-rejected (§23 example 3-equivalent belt-and-suspenders)", () => {
+describe("verifyChain() — hand-crafted-superset-hop-rejected (belt-and-suspenders)", () => {
   it("rejects a validly-signed child hop whose capabilities exceed its true parent's, even though delegate() was bypassed", async () => {
     const { trustedKeys, agent, tool, hop0Chain } = await buildLegitChain();
     const parentHop = hop0Chain.hops[0]!;
@@ -91,7 +91,7 @@ describe("verifyChain() — hand-crafted-superset-hop-rejected (§23 example 3-e
   });
 });
 
-describe("verifyChain() — chain-splice-rejected (§23 example 3)", () => {
+describe("verifyChain() — chain-splice-rejected", () => {
   it("rejects a valid hop spliced onto a different, more-privileged parent it wasn't issued from", async () => {
     const { trustedKeys, hop1Chain, agent } = await buildLegitChain();
     const capturedLeafJws = hop1Chain.hops[1]!.jws;

@@ -1,5 +1,5 @@
 /**
- * Revocation example (§16): issue a credential, use it, revoke it, show
+ * Revocation example: issue a credential, use it, revoke it, show
  * reuse is denied, then show revocation cascades to a hop delegated from the
  * revoked one. Run:
  *

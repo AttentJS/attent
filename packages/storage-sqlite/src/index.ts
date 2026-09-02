@@ -1,4 +1,4 @@
-// @attent/storage-sqlite: durable SQLite adapters for Attent's IdentityStore, RevocationStore, and AuditSink (§11)
+// @attent/storage-sqlite: durable SQLite adapters for Attent's IdentityStore, RevocationStore, and AuditSink
 
 export { openAttentDatabase, type AttentDatabase } from "./db.js";
 export { SqliteIdentityStore, sqliteIdentityStore } from "./identityStore.js";

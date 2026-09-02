@@ -11,7 +11,7 @@ export interface CreateIdentityInput {
   readonly tenantId?: string;
   readonly name?: string;
   readonly publicJWK: JWK;
-  /** Required when `kind` is "agent" — every Agent must be traceable (§5). */
+  /** Required when `kind` is "agent" — every Agent must be traceable. */
   readonly createdBy?: string;
   readonly metadata?: Readonly<Record<string, unknown>>;
 }

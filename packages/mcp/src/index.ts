@@ -1,4 +1,4 @@
-// @attent/mcp: Attent authorization middleware for Model Context Protocol servers (§14)
+// @attent/mcp: Attent authorization middleware for Model Context Protocol servers
 
 export { withAttent } from "./withAttent.js";
 export type {

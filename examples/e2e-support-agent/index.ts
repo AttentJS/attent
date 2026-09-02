@@ -1,8 +1,8 @@
 /**
- * End-to-end demo (§16): Human (root) -> Support Agent -> Refund Tool -> Order.
- * The concrete "proof" artifact per §21 Phase 6 — exercises issuance,
- * delegation, narrowed authorization, revocation cascade, expiry, and the
- * audit trail together, not as isolated unit tests. Run:
+ * End-to-end demo: Human (root) -> Support Agent -> Refund Tool -> Order.
+ * Exercises issuance, delegation, narrowed authorization, revocation
+ * cascade, expiry, and the audit trail together, not as isolated unit
+ * tests. Run:
  *
  *   npm run example:e2e-support-agent
  */

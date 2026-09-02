@@ -5,13 +5,13 @@ function isFiniteNumber(value: unknown): value is number {
 }
 
 /**
- * Built-in predicate evaluator (§6/§9). Understands two numeric-ceiling
- * constraint keys against `context.amount` (`maxAmount`/`minAmount`, the
- * shape used by the §9 refund example) and falls back to strict equality
+ * Built-in predicate evaluator. Understands two numeric-ceiling
+ * constraint keys against `context.amount` (`maxAmount`/`minAmount`, e.g.
+ * a refund ceiling) and falls back to strict equality
  * (`context[key] === constraints[key]`) for any other constraint key.
- * Context restricts, never grants (§22 point 5): a missing/wrong-typed
+ * Context restricts, never grants: a missing/wrong-typed
  * context value always evaluates to `false`, never `true`, and never throws
- * (§17 — must degrade to a clean deny on well-typed-but-unexpected input).
+ * — must degrade to a clean deny on well-typed-but-unexpected input.
  */
 export function defaultPolicyEvaluator(): PolicyEvaluator {
   return {

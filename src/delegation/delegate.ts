@@ -28,12 +28,12 @@ export interface DelegateInput {
 
 /**
  * Delegates a narrowed subset of `from`'s effective authority to `to`,
- * appending one new signed hop to the chain (§7). `intersectCapabilities`/
+ * appending one new signed hop to the chain. `intersectCapabilities`/
  * `intersectAudience` (the same functions chain verification re-derives,
  * `narrow.ts`) decide whether `grant`/`aud` are fully covered by the
  * parent leaf's effective capabilities/`aud`; if not, this **throws**
  * `ExceedsAvailableAuthorityError` rather than silently issuing a narrower
- * credential than requested (§7's corrected reject-not-clip rule) — the
+ * credential than requested (reject-not-clip rule) — the
  * same rule is applied to `exp` here for consistency (a `ttlSeconds` that
  * would outlive the parent is also a reject, not a silent clamp, since
  * silently truncating a requested TTL is exactly the kind of "wider grant

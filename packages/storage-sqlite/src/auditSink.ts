@@ -6,7 +6,7 @@ interface AuditRow {
 }
 
 /**
- * Durable `AuditSink` backed by SQLite (§11/§12). The full event is stored
+ * Durable `AuditSink` backed by SQLite. The full event is stored
  * as a JSON payload column (audit events are read-heavy/append-only and
  * cheap to reconstruct — no need to normalize every field into its own
  * column beyond what's needed to filter); `type`/`principal_id`/

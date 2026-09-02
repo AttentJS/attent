@@ -1,11 +1,11 @@
 import type { Credential } from "../credentials/types.js";
 
-/** Default `maxDelegationDepth` (§7) — overridable per call. */
+/** Default `maxDelegationDepth` — overridable per call. */
 export const DEFAULT_MAX_DELEGATION_DEPTH = 5;
 
 /**
  * The full, ordered, root-to-leaf array of independently-signed hops a
- * Principal presents when calling `authorize()` (§7/§9). Each element is a
+ * Principal presents when calling `authorize()`. Each element is a
  * single-hop `Credential` (the same shape `issueCredential`/`verifyCredential`
  * from `credentials/` already produce) — a `CredentialChain` of length 1 is
  * exactly what a non-delegating root grant looks like.

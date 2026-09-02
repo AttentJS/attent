@@ -14,7 +14,7 @@ describe("intersectCapabilities", () => {
     ]);
   });
 
-  it("rejects the naive-union attack: requested ceiling above parent's ceiling (§23 example 1)", () => {
+  it("rejects the naive-union attack: requested ceiling above parent's ceiling", () => {
     const result = intersectCapabilities(
       [{ action: "refunds:create", resource: "order:*", constraints: { maxAmount: 50 } }],
       [{ action: "refunds:create", resource: "order:*", constraints: { maxAmount: 500 } }]
@@ -24,7 +24,7 @@ describe("intersectCapabilities", () => {
     expect(result.exceeded[0]!.field).toBe("capabilities[0]");
   });
 
-  it("rejects the wildcard-widening attack: requesting a wildcard where parent only holds a concrete resource (§23 example 2)", () => {
+  it("rejects the wildcard-widening attack: requesting a wildcard where parent only holds a concrete resource", () => {
     const result = intersectCapabilities(
       [{ action: "orders:read", resource: "order:18472" }],
       [{ action: "orders:read", resource: "order:*" }]

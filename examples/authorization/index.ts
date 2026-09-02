@@ -1,6 +1,6 @@
 /**
- * Custom PolicyEvaluator example (§16): the built-in evaluator already
- * understands numeric ceilings (`maxAmount`/`minAmount`, §6/policy/default.ts)
+ * Custom PolicyEvaluator example: the built-in evaluator already
+ * understands numeric ceilings (`maxAmount`/`minAmount`, see policy/default.ts)
  * via a capability's own `constraints` — this example shows the *extension
  * point* itself by adding a business-hours predicate the default evaluator
  * doesn't know about, composed on top of (not instead of) the default

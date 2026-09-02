@@ -20,7 +20,7 @@ function farFutureClock(): Clock {
  * expire -> authorize (deny, expired), with real assertions at every step
  * and a full audit trail verified at the end — converts
  * examples/e2e-support-agent/index.ts's narrative demo into an automated
- * test (§21).
+ * test.
  */
 describe("full credential lifecycle", () => {
   it("issuance -> delegation -> authorize -> revocation -> expiry, with a complete audit trail", async () => {

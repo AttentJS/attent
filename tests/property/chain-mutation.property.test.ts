@@ -8,7 +8,7 @@ import type { TrustedKeyStore } from "../../src/crypto/types.js";
 import { fcParams } from "./fc.config.js";
 
 /**
- * §17 "Chain verification" property target: generate random valid chains,
+ * Chain verification property target: generate random valid chains,
  * randomly mutate one field in one hop, assert verification always rejects
  * the mutated chain (never a false-accept). Mutations are re-signed with the
  * *legitimate* issuer's own key (mirroring the "attacker controls agent's

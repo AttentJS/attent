@@ -6,13 +6,11 @@ import type { AuditSink } from "../../src/audit/sink.js";
 import type { AuditEvent } from "../../src/audit/types.js";
 
 /**
- * Shared adapter-conformance suites (§21 Phase 6, §11's "adapter contract
- * test suite requires two 'tenants' worth of fixture data and asserts zero
- * cross-read", T10). Written once, callable against any implementation —
- * today only the in-memory stores exist, but a future
- * `@attent/storage-sqlite`/`-postgres` adapter runs the exact same suite
- * (§11: "right fit... contract suite is written now so it's ready the
- * moment the real adapter exists").
+ * Shared adapter-conformance suites — each requires two "tenants" worth of
+ * fixture data and asserts zero cross-read. Written once, callable against
+ * any implementation — today only the in-memory stores exist, but a future
+ * `@attent/storage-sqlite`/`-postgres` adapter runs the exact same suite,
+ * ready the moment the real adapter exists.
  */
 
 function fixtureIdentity(id: string, tenantId?: string): Identity {

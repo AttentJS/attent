@@ -10,9 +10,9 @@ export type AuditEventListener = (event: AuditEvent) => void;
 export type AuditEventInput = Omit<AuditEvent, "id" | "timestamp" | "prevEventHash">;
 
 export interface AuditEmitter {
-  /** Push-based subscription (§12). Returns an unsubscribe function. */
+  /** Push-based subscription. Returns an unsubscribe function. */
   onAuditEvent(listener: AuditEventListener): () => void;
-  /** Pull-based read, only available when a `sink` was configured (§12). */
+  /** Pull-based read, only available when a `sink` was configured. */
   getAuditEvents(filter?: AuditEventFilter): Promise<readonly AuditEvent[]>;
   /** Internal: called by `audit/observe.ts`'s wrapper functions, not typically by app code directly. */
   emit(input: AuditEventInput): Promise<AuditEvent>;
@@ -21,7 +21,7 @@ export interface AuditEmitter {
 export interface CreateAuditEmitterOptions {
   readonly sink?: AuditSink;
   readonly clock?: Clock;
-  /** Off by default (§12: perf cost of hashing every event isn't universally needed). */
+  /** Off by default: perf cost of hashing every event isn't universally needed. */
   readonly hashChain?: boolean;
   /**
    * Called when `sink.append()` throws/rejects. Defaults to logging via
@@ -61,7 +61,7 @@ class AuditEmitterImpl implements AuditEmitter {
 
   async getAuditEvents(filter?: AuditEventFilter): Promise<readonly AuditEvent[]> {
     if (!this.#sink) {
-      throw new Error("getAuditEvents() requires a configured AuditSink (pull-based reads are opt-in, §12)");
+      throw new Error("getAuditEvents() requires a configured AuditSink (pull-based reads are opt-in)");
     }
     return this.#sink.query(filter);
   }

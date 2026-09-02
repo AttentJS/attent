@@ -120,7 +120,7 @@ describe("authorize() — expiry", () => {
 });
 
 describe("authorize() — revocation", () => {
-  it("allows before revoke, denies immediately after (same-process, synchronous, §25)", async () => {
+  it("allows before revoke, denies immediately after (same-process, synchronous)", async () => {
     const credential = await issueSupportAgentCredential();
     const store = memoryRevocationStore();
 
@@ -133,7 +133,7 @@ describe("authorize() — revocation", () => {
     expect(after).toEqual({ outcome: "deny", reason: "credential_revoked" });
   });
 
-  it("fails closed (denies) when the revocation store is unreachable (T9)", async () => {
+  it("fails closed (denies) when the revocation store is unreachable", async () => {
     const credential = await issueSupportAgentCredential();
     const brokenStore: RevocationStore = {
       revoke: () => Promise.reject(new Error("store unreachable")),
@@ -147,7 +147,7 @@ describe("authorize() — revocation", () => {
   });
 });
 
-describe("authorize() — malformed request input throws, never a silent deny (§26)", () => {
+describe("authorize() — malformed request input throws, never a silent deny", () => {
   it("throws InvalidResourceError for a wildcard/glob literal in the request resource", async () => {
     const credential = await issueSupportAgentCredential();
     await expect(
@@ -163,7 +163,7 @@ describe("authorize() — malformed request input throws, never a silent deny (�
   });
 });
 
-describe("authorize() — determinism (§26)", () => {
+describe("authorize() — determinism", () => {
   it("identical inputs always yield an identical outcome", async () => {
     const credential = await issueSupportAgentCredential();
     const store = memoryRevocationStore();

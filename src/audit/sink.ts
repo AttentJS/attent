@@ -1,10 +1,9 @@
 import type { AuditEvent, AuditEventFilter } from "./types.js";
 
 /**
- * Optional pull-based storage for audit events (§11's `Storage.auditSink`,
- * §12's "pull-based consumption"). Apps that only want push-based delivery
- * (`onAuditEvent`) never need to configure one — `getAuditEvents` simply
- * isn't available without a sink (§12).
+ * Optional pull-based storage for audit events. Apps that only want
+ * push-based delivery (`onAuditEvent`) never need to configure one —
+ * `getAuditEvents` simply isn't available without a sink.
  */
 export interface AuditSink {
   append(event: AuditEvent): Promise<void>;

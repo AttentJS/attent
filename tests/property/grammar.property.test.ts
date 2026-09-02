@@ -5,8 +5,8 @@ import { InvalidActionError, InvalidResourceError } from "../../src/authorizatio
 import { fcParams } from "./fc.config.js";
 
 /**
- * §17 "Resource/action grammar parsing" property target: fuzz raw strings
- * against the T11 grammar. Two invariants matter here — (1) no parser crash
+ * Resource/action grammar parsing property target: fuzz raw strings
+ * against the grammar. Two invariants matter here — (1) no parser crash
  * ever escapes as an unhandled/unexpected error (request-side must always
  * resolve to a clean `InvalidActionError`/`InvalidResourceError` deny, and
  * pattern-side functions must never throw at all, degrading to a fail-closed

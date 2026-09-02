@@ -1,5 +1,5 @@
 /**
- * Real MCP stdio server (§14 secure reference adapter) — unlike
+ * Real MCP stdio server (secure reference adapter) — unlike
  * examples/mcp/index.ts's `InMemoryTransport` demo, this process actually
  * speaks the MCP stdio protocol over its own stdin/stdout, the way a real
  * MCP server ships. Spawned as a child process by examples/mcp-stdio/index.ts
@@ -52,7 +52,7 @@ async function main(): Promise<void> {
     CallToolRequestSchema,
     withAttent(
       {
-        // The recommended, mandatory-verification pattern (§14): hops are
+        // The recommended, mandatory-verification pattern: hops are
         // extracted from `_meta.attentCredential` and run through
         // `verifyChain` before `withAttent` ever sees them.
         resolveCredential: resolveVerifiedCredential({ trustedKeys }),

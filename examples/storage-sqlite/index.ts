@@ -1,5 +1,5 @@
 /**
- * Durable storage demo (§11) — the same `IdentityStore`/`RevocationStore`/
+ * Durable storage demo — the same `IdentityStore`/`RevocationStore`/
  * `AuditSink` interfaces the in-memory adapters satisfy, backed by SQLite
  * instead: an identity, a revocation, and an audit event all survive
  * closing and reopening the database file, which the in-memory adapters

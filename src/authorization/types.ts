@@ -2,12 +2,11 @@ import type { CapabilityGrant } from "../credentials/types.js";
 import type { CredentialChain } from "../delegation/types.js";
 
 /**
- * Deny reasons are a fixed, enumerable contract (§26), not free-form
+ * Deny reasons are a fixed, enumerable contract, not free-form
  * strings, so consuming applications can branch on `reason` reliably.
  * `signature_invalid` / `chain_tampered` / `chain_too_deep` remain reserved
- * but permanently unreachable through `authorize()` — resolved in Phase 4
- * (see journal, §30 open question): chain/signature integrity is always
- * `verifyChain`'s job (a throw, not a `Decision`, per §9's error model —
+ * but permanently unreachable through `authorize()`: chain/signature
+ * integrity is always `verifyChain`'s job (a throw, not a `Decision` —
  * "throwing is reserved for programmer errors... and unrecoverable
  * failures"). `authorize()` only ever receives an already-verified
  * `CredentialChain` and decides allow/deny over it; it never re-runs
@@ -32,7 +31,7 @@ export interface DenyDecision {
   readonly reason: DenyReason;
 }
 
-/** The output of `authorize()` (§26) — always one or the other, never `undefined`. */
+/** The output of `authorize()` — always one or the other, never `undefined`. */
 export type Decision = AllowDecision | DenyDecision;
 
 export interface AuthorizeInput {

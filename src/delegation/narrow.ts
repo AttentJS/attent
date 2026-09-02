@@ -15,7 +15,7 @@ function isFiniteNumber(value: unknown): value is number {
  * key must match exactly — an equality constraint can only be preserved,
  * never loosened. A key present on the parent but absent from `requested`
  * is a widening (requested would be unconstrained on that dimension) and is
- * rejected, never silently inherited (§7's reject-not-clip rule).
+ * rejected, never silently inherited (reject-not-clip rule).
  */
 function constraintsCoverRequest(
   parent: Readonly<Record<string, unknown>> | undefined,
@@ -66,14 +66,14 @@ export interface CapabilityNarrowResult {
 }
 
 /**
- * The single most security-critical function in the codebase (§7, §17,
- * §23) — the structural narrowing check every delegation issuance and every
- * chain verification re-derives. For each requested capability, at least
- * one parent capability must structurally cover it (pattern subset +
+ * The single most security-critical function in the codebase — the
+ * structural narrowing check every delegation issuance and every chain
+ * verification re-derives. For each requested capability, at least one
+ * parent capability must structurally cover it (pattern subset +
  * at-least-as-strict constraints). Never widens: on success the returned
  * `capabilities` is exactly `requestedGrant`, unchanged — narrowing is a
- * pass/fail gate on the request, not a transformation of it (§7's
- * corrected reject-not-clip rule). `exceeded` is empty iff `ok`.
+ * pass/fail gate on the request, not a transformation of it (reject-not-
+ * clip rule). `exceeded` is empty iff `ok`.
  */
 export function intersectCapabilities(
   parentCapabilities: readonly CapabilityGrant[],
@@ -104,10 +104,9 @@ export interface AudienceNarrowResult {
 }
 
 /**
- * Same reject-not-clip narrowing rule as capabilities, applied to `aud`
- * (§8/§24/§28 — "same reject-on-exceed rule as capabilities"). Every
- * requested `aud` pattern must be a subset of at least one parent `aud`
- * pattern.
+ * Same reject-not-clip narrowing rule as capabilities, applied to `aud`.
+ * Every requested `aud` pattern must be a subset of at least one parent
+ * `aud` pattern.
  */
 function asList(value: string | readonly string[]): readonly string[] {
   return typeof value === "string" ? [value] : value;

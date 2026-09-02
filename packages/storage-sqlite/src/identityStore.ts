@@ -26,7 +26,7 @@ function toIdentity(row: IdentityRow): Identity {
 }
 
 /**
- * Durable `IdentityStore` backed by SQLite (§11). Satisfies the same
+ * Durable `IdentityStore` backed by SQLite. Satisfies the same
  * `IdentityStore` interface as `memoryIdentityStore` — verified against the
  * shared `describeIdentityStoreContract` suite — so it's a drop-in
  * replacement, the only difference being that data survives a process

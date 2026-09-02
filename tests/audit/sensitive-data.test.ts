@@ -5,7 +5,7 @@ import { auditedAuthorize, auditedIssueCredential } from "../../src/audit/observ
 import { memoryRevocationStore } from "../../src/revocation/index.js";
 import type { AuditEvent } from "../../src/audit/types.js";
 
-describe("audit — sensitive-data exclusion (§12/§22 point 5)", () => {
+describe("audit — sensitive-data exclusion", () => {
   it("context is absent by default even when authorize() was called with one", async () => {
     const { trustedKeys, root } = await scenario();
     const agent = await makeActor(trustedKeys, { kind: "agent", name: "agent", createdBy: root.identity.id });
