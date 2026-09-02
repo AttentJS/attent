@@ -4,11 +4,12 @@ import {
   issueCredential,
   memoryTrustedKeyStore,
   rootChain,
+  verifyChain,
   type CapabilityGrant,
-  type CredentialChain,
   type Identity,
   type KeyProvider,
   type TrustedKeyStore,
+  type VerifiedCredentialChain,
 } from "attent";
 
 export interface Actor {
@@ -34,11 +35,12 @@ export async function scenario(): Promise<{ trustedKeys: TrustedKeyStore; root: 
 }
 
 export async function issueRoot(
+  trustedKeys: TrustedKeyStore,
   root: Actor,
   subject: Actor,
   capabilities: readonly CapabilityGrant[],
   opts: { aud?: string | readonly string[]; ttlSeconds?: number } = {}
-): Promise<CredentialChain> {
+): Promise<VerifiedCredentialChain> {
   const credential = await issueCredential({
     issuer: root.identity,
     subject: subject.identity,
@@ -47,5 +49,6 @@ export async function issueRoot(
     aud: opts.aud ?? "order:*",
     ttlSeconds: opts.ttlSeconds ?? 900,
   });
-  return rootChain(credential);
+  const chain = rootChain(credential);
+  return verifyChain({ hops: chain.hops.map((hop) => hop.jws), trustedKeys });
 }

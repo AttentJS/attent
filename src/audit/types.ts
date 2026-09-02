@@ -34,6 +34,8 @@ export interface AuditEvent {
   readonly id: string;
   /** ISO 8601, from the injected `Clock` — never raw `Date.now()` (determinism, §12/§29). */
   readonly timestamp: string;
+  /** Optional tenant/organization namespace (mirrors `Identity.tenantId`) — a durable `AuditSink` MUST scope storage/queries by this, not just filter post-query. */
+  readonly tenantId?: string;
   readonly type: AuditEventType;
   readonly principal: AuditPrincipalRef;
   /** The acting agent, if different from `principal` (§12). */
@@ -54,4 +56,5 @@ export interface AuditEventFilter {
   readonly type?: AuditEventType;
   readonly principalId?: string;
   readonly requestId?: string;
+  readonly tenantId?: string;
 }

@@ -1,5 +1,5 @@
-export type { CredentialChain, ExceedsDetail } from "./types.js";
-export { DEFAULT_MAX_DELEGATION_DEPTH, rootChain } from "./types.js";
+export type { CredentialChain, ExceedsDetail, VerifiedCredentialChain } from "./types.js";
+export { DEFAULT_MAX_DELEGATION_DEPTH, rootChain, unsafeAssumeVerified } from "./types.js";
 export {
   intersectCapabilities,
   intersectAudience,

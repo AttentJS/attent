@@ -11,6 +11,10 @@ import { InvalidActionError, InvalidResourceError } from "./errors.js";
  */
 const CONCRETE_SEGMENT = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 
+/** Resource limits — bound unbounded action/resource strings (defense against pathological input, not grammar rules). */
+const MAX_SEGMENT_LENGTH = 128;
+const MAX_SEGMENTS = 16;
+
 function splitSegments(value: string): string[] {
   return value.split(":");
 }
@@ -33,9 +37,15 @@ export function assertConcrete(value: string, kind: "action" | "resource"): stri
     return throwGrammarError(kind, "must be a non-empty string");
   }
   const segments = splitSegments(value);
+  if (segments.length > MAX_SEGMENTS) {
+    return throwGrammarError(kind, `"${value}" exceeds maximum of ${MAX_SEGMENTS} segments`);
+  }
   for (const segment of segments) {
     if (segment.length === 0) {
       return throwGrammarError(kind, `"${value}" contains an empty segment`);
+    }
+    if (segment.length > MAX_SEGMENT_LENGTH) {
+      return throwGrammarError(kind, `"${value}" contains a segment longer than ${MAX_SEGMENT_LENGTH} characters`);
     }
     if (!isConcreteSegment(segment)) {
       return throwGrammarError(
@@ -65,8 +75,11 @@ export function parsePatternSegments(value: string): string[] | null {
     return null;
   }
   const segments = splitSegments(value);
+  if (segments.length > MAX_SEGMENTS) {
+    return null;
+  }
   for (const segment of segments) {
-    if (!isPatternSegment(segment)) {
+    if (segment.length > MAX_SEGMENT_LENGTH || !isPatternSegment(segment)) {
       return null;
     }
   }

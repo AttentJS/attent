@@ -12,7 +12,7 @@ describe("withAttent", () => {
   it("allow path invokes the wrapped handler and returns its result", async () => {
     const { trustedKeys, root } = await scenario();
     const agent = await makeActor(trustedKeys, { kind: "agent", name: "refund-tool", createdBy: root.identity.id });
-    const credential = await issueRoot(root, agent, [
+    const credential = await issueRoot(trustedKeys, root, agent, [
       { action: "refunds:create", resource: "order:*", constraints: { maxAmount: 50 } },
     ]);
 
@@ -40,7 +40,7 @@ describe("withAttent", () => {
   it("deny path returns an MCP tool error and never invokes the wrapped handler", async () => {
     const { trustedKeys, root } = await scenario();
     const agent = await makeActor(trustedKeys, { kind: "agent", name: "refund-tool", createdBy: root.identity.id });
-    const credential = await issueRoot(root, agent, [
+    const credential = await issueRoot(trustedKeys, root, agent, [
       { action: "refunds:create", resource: "order:*", constraints: { maxAmount: 20 } },
     ]);
 
@@ -88,7 +88,7 @@ describe("withAttent", () => {
   it("emits an authorization audit event on both allow and deny", async () => {
     const { trustedKeys, root } = await scenario();
     const agent = await makeActor(trustedKeys, { kind: "agent", name: "refund-tool", createdBy: root.identity.id });
-    const credential = await issueRoot(root, agent, [
+    const credential = await issueRoot(trustedKeys, root, agent, [
       { action: "refunds:create", resource: "order:*", constraints: { maxAmount: 20 } },
     ]);
 

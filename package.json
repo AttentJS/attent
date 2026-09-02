@@ -34,8 +34,14 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "workspaces": [
@@ -50,31 +56,34 @@
     "test:property": "vitest run tests/property tests/delegation/narrow.property.test.ts",
     "test:property:nightly": "node scripts/fuzz-nightly.mjs",
     "typecheck": "tsc --noEmit && npm run typecheck --workspaces --if-present",
-    "lint": "eslint src tests examples packages/mcp/src packages/mcp/tests",
+    "lint": "eslint src tests examples packages/mcp/src packages/mcp/tests packages/storage-sqlite/src packages/storage-sqlite/tests",
     "example:basic": "tsx examples/basic/index.ts",
     "example:delegation": "tsx examples/delegation/index.ts",
     "example:authorization": "tsx examples/authorization/index.ts",
     "example:revocation": "tsx examples/revocation/index.ts",
     "example:e2e-support-agent": "tsx examples/e2e-support-agent/index.ts",
-    "example:mcp": "tsx examples/mcp/index.ts"
+    "example:mcp": "tsx examples/mcp/index.ts",
+    "example:mcp-stdio": "tsx examples/mcp-stdio/index.ts",
+    "example:storage-sqlite": "tsx examples/storage-sqlite/index.ts"
   },
   "devDependencies": {
     "@attent/mcp": "file:packages/mcp",
+    "@attent/storage-sqlite": "file:packages/storage-sqlite",
     "@eslint/js": "^9.39.5",
     "@modelcontextprotocol/sdk": "^1.0.0",
     "@types/node": "^22.5.5",
-    "@vitest/coverage-v8": "^2.1.9",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^9.39.5",
     "fast-check": "^3.23.2",
     "tsup": "^8.5.1",
     "tsx": "^4.23.13",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.69.0",
-    "vitest": "^2.1.9"
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@noble/ed25519": "^2.0.0",
     "@noble/hashes": "^1.4.0",
-    "jose": "^5.9.6"
+    "jose": "^6.2.10"
   }
 }

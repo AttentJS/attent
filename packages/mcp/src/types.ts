@@ -1,5 +1,5 @@
 import type { CallToolRequest, CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import type { AuditEmitter, Clock, CredentialChain, PolicyEvaluator, RevocationStore } from "attent";
+import type { AuditEmitter, Clock, PolicyEvaluator, RevocationStore, VerifiedCredentialChain } from "attent";
 
 /**
  * Everything `resolveCredential` needs to pull an Attent credential out of a
@@ -13,9 +13,18 @@ export interface ResolveCredentialContext<Extra> {
   readonly extra: Extra;
 }
 
+/**
+ * Must resolve to a `VerifiedCredentialChain` — the type only `verifyChain()`
+ * (or the explicitly-named `unsafeAssumeVerified`) can produce. This is
+ * deliberate: `withAttent` must never be able to authorize an object shaped
+ * like a `CredentialChain` that a caller supplied directly without it having
+ * passed signature/chain verification first. Use `resolveVerifiedCredential`
+ * (this package) for the common case of "extract JWS hops from the request,
+ * then verify them" — it wires this correctly by construction.
+ */
 export type ResolveCredential<Extra> = (
   ctx: ResolveCredentialContext<Extra>
-) => CredentialChain | undefined | Promise<CredentialChain | undefined>;
+) => VerifiedCredentialChain | undefined | Promise<VerifiedCredentialChain | undefined>;
 
 /** The already-wrapped tool handler `withAttent` produces, matching the SDK's `setRequestHandler` callback shape. */
 export type CallToolHandler<Extra> = (request: CallToolRequest, extra: Extra) => CallToolResult | Promise<CallToolResult>;

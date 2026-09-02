@@ -9,6 +9,8 @@ export interface RevokeOptions {
    * mark not-yet-presented descendant hop ids revoked too.
    */
   readonly cascade?: boolean;
+  /** Optional tenant/organization namespace, recorded for adapters that partition storage by tenant (§11). Hop ids (`jti`) are already globally unique, so this is bookkeeping, not an isolation requirement. */
+  readonly tenantId?: string;
 }
 
 /**

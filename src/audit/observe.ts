@@ -24,6 +24,8 @@ import type { AuditDelegationHop, AuditPrincipalRef } from "./types.js";
 export interface AuditOptions {
   readonly emitter?: AuditEmitter;
   readonly requestId?: string;
+  /** Optional tenant/organization namespace stamped onto the emitted event, for a durable multi-tenant `AuditSink` to scope by (§11). */
+  readonly tenantId?: string;
   /** Off by default (§12) — `context` often carries request-specific business data. */
   readonly includeContext?: boolean;
   /** Applied to `context` before recording, only when `includeContext` is set. */
@@ -52,6 +54,7 @@ export async function auditedAuthorize(
     const leaf = hops[hops.length - 1];
     const rawContext = input.context;
     await options.emitter.emit({
+      tenantId: options.tenantId,
       type: "authorization",
       principal: root ? { id: root.issuer } : { id: leaf?.subject ?? "unknown" },
       agent: leaf && root && leaf.subject !== root.issuer ? { id: leaf.subject } : undefined,
@@ -81,6 +84,7 @@ export async function auditedDelegate(input: DelegateInput, options: AuditOption
     const root = hops[0]!;
     const leaf = hops[hops.length - 1]!;
     await options.emitter.emit({
+      tenantId: options.tenantId,
       type: "delegation",
       principal: ref(root.issuer, undefined, options.includeNames),
       agent:
@@ -103,6 +107,7 @@ export async function auditedRevoke(input: RevokeInput, options: AuditOptions = 
     const root = hops[0];
     const leaf = hops[hops.length - 1];
     await options.emitter.emit({
+      tenantId: options.tenantId,
       type: "revocation",
       principal: root ? { id: root.issuer } : { id: leaf?.subject ?? "unknown" },
       agent: leaf && root && leaf.subject !== root.issuer ? { id: leaf.subject } : undefined,
@@ -120,6 +125,7 @@ export async function auditedIssueCredential(
 
   if (options.emitter) {
     await options.emitter.emit({
+      tenantId: options.tenantId,
       type: "credential_issued",
       principal: ref(input.issuer.id, options.includeNames ? input.issuer.name : undefined, options.includeNames),
       agent:

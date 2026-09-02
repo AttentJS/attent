@@ -4,8 +4,8 @@ import {
   exportJWK,
   generateKeyPair,
   calculateJwkThumbprint,
+  type CryptoKey,
   type JWK,
-  type KeyLike,
 } from "jose";
 import { ALLOWED_ALGORITHMS, type Algorithm, type Claims, type KeyProvider, type TrustedKeyStore } from "./types.js";
 import { UnsupportedAlgorithmError, SignatureVerificationError } from "./errors.js";
@@ -19,10 +19,10 @@ function assertAllowedAlgorithm(alg: string): asserts alg is Algorithm {
 class JoseKeyProvider implements KeyProvider {
   readonly kid: string;
   readonly alg: Algorithm;
-  readonly #privateKey: KeyLike;
-  readonly #publicKey: KeyLike;
+  readonly #privateKey: CryptoKey;
+  readonly #publicKey: CryptoKey;
 
-  constructor(alg: Algorithm, kid: string, privateKey: KeyLike, publicKey: KeyLike) {
+  constructor(alg: Algorithm, kid: string, privateKey: CryptoKey, publicKey: CryptoKey) {
     this.alg = alg;
     this.kid = kid;
     this.#privateKey = privateKey;

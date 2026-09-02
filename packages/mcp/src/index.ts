@@ -7,3 +7,9 @@ export type {
   ResolveCredentialContext,
   WithAttentOptions,
 } from "./types.js";
+export {
+  attentCredentialFromMeta,
+  resolveVerifiedCredential,
+  type AttentCredentialMeta,
+  type ResolveVerifiedCredentialOptions,
+} from "./resolveVerifiedCredential.js";

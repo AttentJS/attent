@@ -59,7 +59,7 @@ describe("createIdentity", () => {
 
   it("rejects a missing/malformed publicJWK", () => {
     expect(() =>
-      createIdentity({ kind: "human", publicJWK: {} as unknown as { kty: string } })
+      createIdentity({ kind: "human", publicJWK: {} })
     ).toThrow(InvalidIdentityError);
   });
 

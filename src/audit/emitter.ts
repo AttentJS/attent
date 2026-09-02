@@ -23,6 +23,16 @@ export interface CreateAuditEmitterOptions {
   readonly clock?: Clock;
   /** Off by default (§12: perf cost of hashing every event isn't universally needed). */
   readonly hashChain?: boolean;
+  /**
+   * Called when `sink.append()` throws/rejects. Defaults to logging via
+   * `console.error`. Audit is fail-open-for-the-decision, fail-visible-for-
+   * audit: a failing durable-audit write must never cause the caller of
+   * `audited*` (`observe.ts`) to lose the `Decision`/chain/etc. it already
+   * computed — the opposite of revocation's fail-closed policy, because
+   * losing one audit record is recoverable (retry, alert, backfill) while
+   * silently discarding an already-correct authorization result is not.
+   */
+  readonly onSinkError?: (error: unknown, event: AuditEvent) => void;
 }
 
 class AuditEmitterImpl implements AuditEmitter {
@@ -30,12 +40,18 @@ class AuditEmitterImpl implements AuditEmitter {
   readonly #clock: Clock;
   readonly #hashChain: boolean;
   readonly #listeners = new Set<AuditEventListener>();
+  readonly #onSinkError: (error: unknown, event: AuditEvent) => void;
   #lastHash: string | undefined;
 
   constructor(options: CreateAuditEmitterOptions) {
     this.#sink = options.sink;
     this.#clock = options.clock ?? systemClock();
     this.#hashChain = options.hashChain ?? false;
+    this.#onSinkError =
+      options.onSinkError ??
+      ((error: unknown, event: AuditEvent): void => {
+        console.error(`attent: audit sink append failed for event ${event.id} (${event.type})`, error);
+      });
   }
 
   onAuditEvent(listener: AuditEventListener): () => void {
@@ -66,7 +82,11 @@ class AuditEmitterImpl implements AuditEmitter {
       listener(event);
     }
     if (this.#sink) {
-      await this.#sink.append(event);
+      try {
+        await this.#sink.append(event);
+      } catch (error) {
+        this.#onSinkError(error, event);
+      }
     }
     return event;
   }

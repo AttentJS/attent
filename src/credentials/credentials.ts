@@ -8,6 +8,7 @@ import {
 } from "jose";
 import { ALLOWED_ALGORITHMS, type Algorithm, type KeyProvider, type TrustedKeyStore } from "../crypto/types.js";
 import type { Identity } from "../identity/types.js";
+import { MAX_AUD_ENTRIES, MAX_CAPABILITIES_PER_HOP, MAX_TTL_SECONDS } from "./types.js";
 import type { CapabilityGrant, Credential, HopClaims } from "./types.js";
 import type { Clock } from "./clock.js";
 import { systemClock } from "./clock.js";
@@ -16,6 +17,7 @@ import {
   CredentialVerificationError,
   InvalidCredentialInputError,
   MalformedCredentialError,
+  TtlTooLongError,
 } from "./errors.js";
 
 const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
@@ -66,14 +68,23 @@ export async function issueCredential(input: IssueCredentialInput): Promise<Cred
   if (!Number.isInteger(ttlSeconds) || ttlSeconds <= 0) {
     throw new InvalidCredentialInputError("ttlSeconds must be a positive integer");
   }
+  if (ttlSeconds > MAX_TTL_SECONDS) {
+    throw new TtlTooLongError(ttlSeconds, MAX_TTL_SECONDS);
+  }
   if (!Array.isArray(capabilities)) {
     throw new InvalidCredentialInputError("capabilities must be an array");
+  }
+  if (capabilities.length > MAX_CAPABILITIES_PER_HOP) {
+    throw new InvalidCredentialInputError(`capabilities exceeds maximum of ${MAX_CAPABILITIES_PER_HOP} entries`);
   }
   assertValidCapabilities(capabilities);
 
   const audList = Array.isArray(aud) ? aud : [aud];
   if (audList.length === 0 || audList.some((a) => typeof a !== "string" || a.trim().length === 0)) {
     throw new InvalidCredentialInputError("aud must be a non-empty string or non-empty array of non-empty strings");
+  }
+  if (audList.length > MAX_AUD_ENTRIES) {
+    throw new InvalidCredentialInputError(`aud exceeds maximum of ${MAX_AUD_ENTRIES} entries`);
   }
 
   const iat = Math.floor(clock.now().getTime() / 1000);

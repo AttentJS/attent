@@ -22,7 +22,7 @@ import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import type { CallToolRequest, CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { withAttent } from "@attent/mcp";
+import { resolveVerifiedCredential, withAttent } from "@attent/mcp";
 import {
   authorize,
   createAuditEmitter,
@@ -32,7 +32,6 @@ import {
   memoryRevocationStore,
   memoryTrustedKeyStore,
   rootChain,
-  verifyChain,
   type AuditEvent,
   type CredentialChain,
   type Identity,
@@ -143,16 +142,12 @@ async function main(): Promise<void> {
     CallToolRequestSchema,
     withAttent(
       {
-        resolveCredential: async ({ request }) => {
-          const meta = request.params._meta as { attentCredential?: readonly string[] } | undefined;
-          const hops = meta?.attentCredential;
-          if (!hops || hops.length === 0) return undefined;
-          try {
-            return await verifyChain({ hops, trustedKeys });
-          } catch {
-            return undefined; // malformed/forged/expired -> treated as no credential, never trusted (T7/T8).
-          }
-        },
+        // Extracts hops from `_meta.attentCredential` and runs them through
+        // `verifyChain` before `withAttent` ever sees them — malformed/
+        // forged/expired chains collapse to "no credential" (T7/T8),
+        // never trusted. This is the only supported way to satisfy
+        // `resolveCredential`'s `VerifiedCredentialChain` return type.
+        resolveCredential: resolveVerifiedCredential({ trustedKeys }),
         actionForTool: () => "refunds:create",
         resourceForArgs: (_tool, args) => `order:${String(args.orderId)}`,
         contextForArgs: (_tool, args) => ({ amount: Number(args.amount) }),

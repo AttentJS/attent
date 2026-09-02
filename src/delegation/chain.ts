@@ -6,7 +6,7 @@ import { systemClock } from "../credentials/clock.js";
 import { verifyCredential } from "../credentials/credentials.js";
 import { intersectAudience, intersectCapabilities } from "./narrow.js";
 import { ChainContinuityError, ChainHashMismatchError, ChainNarrowingViolationError, ChainTooDeepError } from "./errors.js";
-import type { CredentialChain, ExceedsDetail } from "./types.js";
+import type { ExceedsDetail, VerifiedCredentialChain } from "./types.js";
 import { DEFAULT_MAX_DELEGATION_DEPTH } from "./types.js";
 
 export interface VerifyChainInput {
@@ -34,7 +34,7 @@ export interface VerifyChainInput {
  * storage dependency by design, matching Phase 1-3's existing
  * `verifyCredential` (crypto/structural verification only).
  */
-export async function verifyChain(input: VerifyChainInput): Promise<CredentialChain> {
+export async function verifyChain(input: VerifyChainInput): Promise<VerifiedCredentialChain> {
   const { hops, trustedKeys } = input;
   const clock = input.clock ?? systemClock();
   const maxDepth = input.maxDelegationDepth ?? DEFAULT_MAX_DELEGATION_DEPTH;
@@ -93,5 +93,5 @@ export async function verifyChain(input: VerifyChainInput): Promise<CredentialCh
     }
   }
 
-  return { hops: verified };
+  return { hops: verified } as unknown as VerifiedCredentialChain;
 }

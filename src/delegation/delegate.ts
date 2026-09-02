@@ -1,10 +1,11 @@
 import { sha256Base64Url } from "../crypto/hash.js";
 import type { KeyProvider } from "../crypto/types.js";
 import type { Identity } from "../identity/types.js";
+import { MAX_TTL_SECONDS } from "../credentials/types.js";
 import type { CapabilityGrant, Credential, HopClaims } from "../credentials/types.js";
 import type { Clock } from "../credentials/clock.js";
 import { systemClock } from "../credentials/clock.js";
-import { InvalidCredentialInputError } from "../credentials/errors.js";
+import { InvalidCredentialInputError, TtlTooLongError } from "../credentials/errors.js";
 import { intersectAudience, intersectCapabilities } from "./narrow.js";
 import { ExceedsAvailableAuthorityError, MaxDelegationDepthExceededError } from "./errors.js";
 import type { CredentialChain, ExceedsDetail } from "./types.js";
@@ -52,6 +53,9 @@ export async function delegate(input: DelegateInput): Promise<CredentialChain> {
   }
   if (!Number.isInteger(ttlSeconds) || ttlSeconds <= 0) {
     throw new InvalidCredentialInputError("ttlSeconds must be a positive integer");
+  }
+  if (ttlSeconds > MAX_TTL_SECONDS) {
+    throw new TtlTooLongError(ttlSeconds, MAX_TTL_SECONDS);
   }
   if (!Array.isArray(grant) || grant.length === 0) {
     throw new InvalidCredentialInputError("grant must be a non-empty array of capabilities");

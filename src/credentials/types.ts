@@ -1,4 +1,22 @@
 /**
+ * Bearer tokens are valid for reuse (not single-use) for their entire `exp`
+ * window — Attent deliberately does not track "already presented" state
+ * (that would require a durable, globally-consistent replay cache on every
+ * verification path, including offline/air-gapped verifiers). Compromise is
+ * mitigated by revocation (`RevocationStore`, keyed by `jti`), not by replay
+ * detection. `MAX_TTL_SECONDS` bounds how long any single hop can remain a
+ * live bearer token regardless of the caller-requested `ttlSeconds`, so the
+ * bearer-replay window has a hard ceiling even if revocation is never
+ * exercised. 30 days is a default upper bound, not a recommendation — most
+ * deployments should issue much shorter-lived hops.
+ */
+export const MAX_TTL_SECONDS = 30 * 24 * 60 * 60;
+
+/** Resource limits (defense against unbounded-payload abuse, not business rules). */
+export const MAX_CAPABILITIES_PER_HOP = 100;
+export const MAX_AUD_ENTRIES = 50;
+
+/**
  * A single granted permission, optionally further constrained. Full
  * capability-matching/policy semantics (§6) land in Phase 3 — here it's just
  * the wire shape carried inside a signed hop.

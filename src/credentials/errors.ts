@@ -1,3 +1,10 @@
+export class TtlTooLongError extends Error {
+  constructor(ttlSeconds: number, maxTtlSeconds: number) {
+    super(`ttlSeconds (${ttlSeconds}) exceeds the maximum allowed credential lifetime (${maxTtlSeconds}s)`);
+    this.name = "TtlTooLongError";
+  }
+}
+
 export class InvalidCredentialInputError extends Error {
   constructor(reason: string) {
     super(`Invalid credential input: ${reason}`);

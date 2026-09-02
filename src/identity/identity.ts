@@ -1,4 +1,5 @@
 import type { JWK } from "jose";
+import { MAX_METADATA_KEYS } from "./types.js";
 import type { Identity, PrincipalKind } from "./types.js";
 import { InvalidIdentityError } from "./errors.js";
 
@@ -7,6 +8,7 @@ const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
 
 export interface CreateIdentityInput {
   readonly kind?: PrincipalKind;
+  readonly tenantId?: string;
   readonly name?: string;
   readonly publicJWK: JWK;
   /** Required when `kind` is "agent" — every Agent must be traceable (§5). */
@@ -15,7 +17,11 @@ export interface CreateIdentityInput {
 }
 
 function assertSafeMetadata(metadata: Readonly<Record<string, unknown>>): void {
-  for (const key of Object.keys(metadata)) {
+  const keys = Object.keys(metadata);
+  if (keys.length > MAX_METADATA_KEYS) {
+    throw new InvalidIdentityError(`metadata exceeds maximum of ${MAX_METADATA_KEYS} keys`);
+  }
+  for (const key of keys) {
     if (FORBIDDEN_KEYS.has(key)) {
       throw new InvalidIdentityError(`metadata key "${key}" is not allowed`);
     }
@@ -53,6 +59,7 @@ export function createIdentity(input: CreateIdentityInput): Identity {
   return {
     id: crypto.randomUUID(),
     kind,
+    tenantId: input.tenantId,
     name: input.name,
     publicJWK: input.publicJWK,
     createdAt: new Date().toISOString(),

@@ -1,13 +1,13 @@
 {
-  "name": "@attent/mcp",
+  "name": "@attent/storage-sqlite",
   "version": "0.0.1",
-  "description": "Attent authorization middleware for Model Context Protocol servers",
+  "description": "Durable SQLite adapters for Attent's IdentityStore, RevocationStore, and AuditSink",
   "keywords": [
     "attent",
-    "mcp",
-    "model-context-protocol",
-    "authorization",
-    "agents"
+    "sqlite",
+    "storage",
+    "durable",
+    "authorization"
   ],
   "homepage": "https://github.com/AttentJS/attent#readme",
   "bugs": {
@@ -16,7 +16,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AttentJS/attent.git",
-    "directory": "packages/mcp"
+    "directory": "packages/storage-sqlite"
   },
   "license": "MIT",
   "author": "AttentJS",
@@ -43,6 +43,9 @@
   },
   "dependencies": {
     "attent": "file:../..",
-    "@modelcontextprotocol/sdk": "^1.0.0"
+    "better-sqlite3": "^11.10.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13"
   }
 }

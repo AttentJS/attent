@@ -24,6 +24,9 @@ function matches(event: AuditEvent, filter?: AuditEventFilter): boolean {
   if (filter.requestId !== undefined && event.requestId !== filter.requestId) {
     return false;
   }
+  if (filter.tenantId !== undefined && event.tenantId !== filter.tenantId) {
+    return false;
+  }
   return true;
 }
 
